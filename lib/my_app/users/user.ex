@@ -1,6 +1,9 @@
 defmodule MyApp.Users.User do
   use Ecto.Schema
   use Pow.Ecto.Schema
+  use Pow.Extension.Ecto.Schema,
+    extensions: [PowResetPassword]
+
 
   alias Ecto.{Changeset, Schema}
 
@@ -10,6 +13,12 @@ defmodule MyApp.Users.User do
     pow_user_fields()
 
     timestamps()
+  end
+
+  def changeset(user_or_changeset, attrs) do
+    user_or_changeset
+    |> pow_changeset(attrs)
+    |> pow_extension_changeset(attrs)
   end
 
   @spec lock_changeset(Schema.t() | Changeset.t()) :: Changeset.t()
