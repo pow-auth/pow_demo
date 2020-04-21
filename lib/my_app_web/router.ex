@@ -1,6 +1,8 @@
 defmodule MyAppWeb.Router do
   use MyAppWeb, :router
   use Pow.Phoenix.Router
+  use Pow.Extension.Phoenix.Router,
+    extensions: [PowResetPassword]
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -18,6 +20,7 @@ defmodule MyAppWeb.Router do
     pipe_through :browser
 
     pow_routes()
+    pow_extension_routes()
   end
 
   scope "/admin", MyAppWeb.Admin, as: :admin do
