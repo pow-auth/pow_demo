@@ -16,6 +16,12 @@ defmodule MyAppWeb.Router do
     plug :accepts, ["json"]
   end
 
+  scope "/", MyAppWeb do
+    pipe_through :browser
+
+    post "/reset-password", ResetPasswordController, :create
+  end
+
   scope "/" do
     pipe_through :browser
 
