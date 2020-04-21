@@ -20,6 +20,14 @@ defmodule MyAppWeb.Router do
     pow_routes()
   end
 
+  scope "/admin", MyAppWeb.Admin, as: :admin do
+    pipe_through :browser
+    # Usually you would lock this area with a plug:
+    # pipe_through [:browser, :require_admin_user]
+
+    post "/users/:id/lock", UserController, :lock
+  end
+
   scope "/", MyAppWeb do
     pipe_through :browser
 
