@@ -14,6 +14,10 @@ defmodule MyAppWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :admin do
+    plug MyAppWeb.EnsureRolePlug, :admin
+  end
+
   scope "/" do
     pipe_through :browser
 
