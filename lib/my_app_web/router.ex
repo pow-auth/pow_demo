@@ -16,6 +16,17 @@ defmodule MyAppWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :protected do
+    plug Pow.Plug.RequireAuthenticated,
+      error_handler: Pow.Phoenix.PlugErrorHandler
+  end
+
+  scope "/", MyAppWeb do
+    pipe_through [:browser, :protected]
+
+    post "/registration/send-confirmation-email", RegistrationController, :resend_confirmation_email
+  end
+
   scope "/" do
     pipe_through :browser
 
