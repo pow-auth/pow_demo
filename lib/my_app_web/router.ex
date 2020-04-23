@@ -18,6 +18,12 @@ defmodule MyAppWeb.Router do
     plug MyAppWeb.EnsureRolePlug, :admin
   end
 
+  scope "/admin", MyAppWeb do
+    pipe_through [:browser, :admin]
+
+    get "/", AdminController, :index
+  end
+
   scope "/" do
     pipe_through :browser
 
@@ -28,6 +34,7 @@ defmodule MyAppWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    get "/some-path", SomeController, :index
   end
 
   # Other scopes may use custom stacks.

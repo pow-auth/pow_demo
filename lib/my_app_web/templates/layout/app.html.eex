@@ -17,8 +17,14 @@
             <li>
               <p>You have admin access</p>
             </li>
+            <li><%= link "SomeController", to: Routes.some_path(@conn, :index) %></li>
+            <li><%= link "AdminController", to: Routes.admin_path(@conn, :index) %></li>
           <% end %>
-            <li><a href="https://hexdocs.pm/phoenix/overview.html">Get Started</a></li>
+          <%= if Pow.Plug.current_user(@conn) do %>
+            <li><%= link "Sign out", to: Routes.pow_session_path(@conn, :delete), method: :delete %></span>
+          <% else %>
+            <li><%= link "Sign in", to: Routes.pow_session_path(@conn, :new) %></span>
+          <% end %>
             <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
               <li><%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home) %></li>
             <% end %>
