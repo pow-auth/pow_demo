@@ -47,9 +47,11 @@ defmodule MyAppWeb.Endpoint do
     pass: ["*/*"],
     json_decoder: Phoenix.json_library()
 
+  plug Triplex.ParamPlug, param: :subdomain
+
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
-  plug Pow.Plug.Session, otp_app: :my_app
+  plug MyAppWeb.Pow.TriplexSessionPlug, otp_app: :my_app
   plug MyAppWeb.Router
 end
