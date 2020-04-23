@@ -8,10 +8,30 @@ defmodule MyAppWeb.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug Pow.Plug.Session, otp_app: :my_app
   end
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug MyAppWeb.APIAuthPlug, otp_app: :my_app
+  end
+
+  pipeline :api_protected do
+    plug Pow.Plug.RequireAuthenticated, error_handler: MyAppWeb.APIAuthErrorHandler
+  end
+
+  scope "/api/v1", MyAppWeb.API.V1, as: :api_v1 do
+    pipe_through :api
+
+    resources "/registration", RegistrationController, singleton: true, only: [:create]
+    resources "/session", SessionController, singleton: true, only: [:create, :delete]
+    post "/session/renew", SessionController, :renew
+  end
+
+  scope "/api/v1", MyAppWeb.API.V1, as: :api_v1 do
+    pipe_through [:api, :api_protected]
+
+    # Your protected API endpoints here
   end
 
   scope "/" do
