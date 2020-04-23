@@ -24,6 +24,7 @@ defmodule MyAppWeb.Router do
   scope "/", MyAppWeb do
     pipe_through [:browser, :protected]
 
+    get "/registration/edit", RegistrationController, :edit
     post "/registration/send-confirmation-email", RegistrationController, :resend_confirmation_email
   end
 

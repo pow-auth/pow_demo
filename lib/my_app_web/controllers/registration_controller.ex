@@ -1,6 +1,10 @@
 defmodule MyAppWeb.RegistrationController do
   use MyAppWeb, :controller
 
+  def edit(conn, _params) do
+    render(conn, changeset: Pow.Plug.change_user(conn), action: Routes.pow_registration_path(conn, :update))
+  end
+
   def resend_confirmation_email(conn, _params) do
     case PowEmailConfirmation.Plug.pending_email_change?(conn) do
       true ->
