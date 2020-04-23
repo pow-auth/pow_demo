@@ -8,6 +8,7 @@ defmodule MyAppWeb.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug :maybe_check_password
   end
 
   pipeline :api do
@@ -44,6 +45,32 @@ defmodule MyAppWeb.Router do
     scope "/" do
       pipe_through :browser
       live_dashboard "/dashboard", metrics: MyAppWeb.Telemetry
+    end
+  end
+
+  defp maybe_check_password(conn, opts) do
+    case conn.request_path == "/session" and conn.method == "POST" do
+      true -> check_password(conn, opts)
+      false -> conn
+    end
+  end
+
+  alias MyAppWeb.Router.Helpers, as: Routes
+
+  def check_password(%{params: %{"user" => user_params}} = conn, _opts) do
+    changeset = MyApp.Users.User.changeset(%MyApp.Users.User{}, user_params)
+
+    case changeset.errors[:password] do
+      nil ->
+        conn
+
+      error ->
+        msg = MyAppWeb.ErrorHelpers.translate_error(error)
+
+        conn
+        |> put_flash(:error, "You have to reset your password because it #{msg}")
+        |> redirect(to: Routes.page_path(conn, :index))
+        |> Plug.Conn.halt()
     end
   end
 end
