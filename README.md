@@ -1,5 +1,19 @@
 # Pow Demo App
 
+Start the first node with:
+
+```bash
+elixir --name a@127.0.0.1 -S mix phx.server
+```
+
+Then start the second node with:
+
+```bash
+PORT=4001 elixir --name b@127.0.0.1 -S mix phx.server
+```
+
+Sign in at http://localhost:4000/session/new and update registration at http://localhost:4001/registration/edit.
+
 ## Demo branches
 
 - [Full Pow demo](https://github.com/pow-auth/pow_demo/tree/full-app) [(diff)](https://github.com/pow-auth/pow_demo/compare/all-extensions..full-app)
