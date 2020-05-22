@@ -27,8 +27,7 @@ defmodule MyApp.Application do
       # Start a worker by calling: MyApp.Worker.start_link(arg)
       # {MyApp.Worker, arg}
 
-      {Pow.Store.Backend.MnesiaCache, extra_db_nodes: Node.list()},
-      Pow.Store.Backend.MnesiaCache.Unsplit
+      MyApp.MnesiaClusterSupervisor
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
