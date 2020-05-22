@@ -14,6 +14,13 @@ PORT=4001 elixir --name b@127.0.0.1 -S mix phx.server
 
 Sign in at http://localhost:4000/session/new and update registration at http://localhost:4001/registration/edit.
 
+To create large mnesia table in IEX:
+
+```elixir
+> length = 1_000_000
+> Enum.each(1..100, & PowPersistentSession.Store.PersistentSessionCache.put([backend: Pow.Store.Backend.MnesiaCache, ttl: :timer.hours(24) * 30], &1, :crypto.strong_rand_bytes(length) |> Base.url_encode64 |> binary_part(0, length)))
+```
+
 ## Demo branches
 
 - [Full Pow demo](https://github.com/pow-auth/pow_demo/tree/full-app) [(diff)](https://github.com/pow-auth/pow_demo/compare/all-extensions..full-app)
