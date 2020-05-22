@@ -28,7 +28,8 @@ config :phoenix, :json_library, Jason
 
 config :my_app, :pow,
   user: MyApp.Users.User,
-  repo: MyApp.Repo
+  repo: MyApp.Repo,
+  cache_store_backend: Pow.Store.Backend.MnesiaCache
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

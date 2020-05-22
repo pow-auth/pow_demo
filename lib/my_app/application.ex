@@ -14,9 +14,12 @@ defmodule MyApp.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: MyApp.PubSub},
       # Start the Endpoint (http/https)
-      MyAppWeb.Endpoint
+      MyAppWeb.Endpoint,
       # Start a worker by calling: MyApp.Worker.start_link(arg)
       # {MyApp.Worker, arg}
+
+      {Pow.Store.Backend.MnesiaCache, extra_db_nodes: Node.list()},
+      Pow.Store.Backend.MnesiaCache.Unsplit
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
