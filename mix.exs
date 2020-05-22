@@ -46,7 +46,8 @@ defmodule MyApp.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
 
-      {:pow, "~> 1.0.20"}
+      {:pow, "~> 1.0.20"},
+      {:libcluster, "~> 3.2.1"}
     ]
   end
 
